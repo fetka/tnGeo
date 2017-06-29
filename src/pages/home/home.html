@@ -3,16 +3,129 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Home</ion-title>
+    <ion-title [hidden]="isWorking">TrackNote</ion-title>
+    <ion-spinner [hidden]="!isWorking" [paused]="isPause" name="bubbles"></ion-spinner>
+    <ion-buttons end>
+      <button ion-button color="dark" (click)="reverseGeoCoding()">
+				<ion-icon ios="ios-information-circle-outline" md="md-information-circle"></ion-icon></button>
+      <button ion-button color="dark" (click)="addPoint()">
+				<ion-icon ios="ios-pin" md="md-pin"></ion-icon> </button>
+
+      <button ion-button color="dark" (click)="takePicture()">
+             <ion-icon  ios="ios-camera" md="md-camera"></ion-icon>
+       </button>
+      <button ion-button icon-only (click)="presentPopover($event)">
+        <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <h3>Ionic Menu Starter</h3>
 
+  <ion-grid>
+    <ion-row>
+      <ion-col col-4>
+        <button ion-button full primary round [disabled]="!isWorking" (click)="pauseTracking()">Pause</button>
+
+      </ion-col>
+      <ion-col col-8>
+
+        <button ion-button full primary round [disabled]="isWorking" (click)="start()">
+          {{ isWorking ? isPause ? 'Pause on':' Running ...' : 'Start Tracking' }}
+        </button>
+      </ion-col>
+
+    </ion-row>
+
+
+    <ion-row id="row">
+      <!--<ion-col col-2>
+        <p> lat-lng </p>
+      </ion-col>-->
+      <ion-col col-md-9 col-sm-9>
+        <p>lat-lng {{latitude }} {{longitude}} </p>
+      </ion-col>
+      <ion-col col-md-3 col-sm-3>
+        <p> <span></span>&nbsp; point(s) </p>
+      </ion-col>
+
+    </ion-row>
+    <p style="margin:5px;">Overall:</p>
+    <ion-row id="row">
+      <ion-col col-md-3>
+        <h6>start<br><span>{{ startTime }}</span></h6>
+      </ion-col>
+      <ion-col col-md-3>
+        <h6>duration<br><span>{{ duration }}</span></h6>
+      </ion-col>
+      <ion-col col-md-3>
+        <h6><span>{{ distanceString }}</span><br>km</h6>
+      </ion-col>
+      <ion-col col-md-3>
+        <h6><span>{{ kmPerHour }}</span><br>km/h</h6>
+      </ion-col>
+    </ion-row>
+
+
+    <p style="margin:5px;">Last part:</p>
+    <ion-row id="row">
+      <ion-col col-md-3>
+        <h6>start<br><span></span></h6>
+      </ion-col>
+      <ion-col col-md-3>
+
+        <h6>duration<br><span></span></h6>
+      </ion-col>
+      <ion-col col-md-3>
+        <h6><span></span><br>km</h6>
+      </ion-col>
+
+      <ion-col col-md-3>
+        <h6><span></span><br>km/h</h6>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+  <!--<p class="working" *ngIf="isWorking">Tracker's working ...</p>-->
+
+  <!--<h6> Current Distance: {{ locationTracker.distance | number }}</h6>-->
+
+
+  <!--<h6>Points to store: {{ locationTracker.savedPositions.length }}</h6>-->
+
+  <ion-row>
+    <ion-col col-4>
+      <button ion-button full primary round [disabled]="isCleared" (click)="reset()">Reset</button>
+    </ion-col>
+    <ion-col col-8>
+      <button ion-button full round primary (click)="stop()">Stop Tracking</button>
+    </ion-col>
+  </ion-row>
+
+
+  <ion-row>
+    <ion-col col-4>
+      <button ion-button full round primary (click)="showPointPage()">Show
+    </button>
+    </ion-col>
+    <ion-col col-8>
+      <button ion-button full round primary (click)="storeTrack()">
+     Save Tracking</button>
+    </ion-col>
+  </ion-row>
+  <!--<ion-row>
+    <ion-col >
+
+  <button ion-button full round primary (click)="showPointPage()">Show list of tracks</button>
+    </ion-col>
+ </ion-row>-->
+
+  <p></p>
+  <p>Speed: {{speed}}, altitude: {{altitude}}, bearing:{{ bearing}}</p>
   <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will show you the way.
-  </p>
-
-  <button ion-button secondary menuToggle>Toggle Menu</button>
+    <ion-icon name="arrow-up"></ion-icon> Ascent: {{ascentStr}},
+    <ion-icon name="arrow-down"></ion-icon> Descent: {{descentStr}}</p>
+  <p>provider: {{provider}}</p>
 </ion-content>

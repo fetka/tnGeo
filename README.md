@@ -24,3 +24,11 @@ $ ionic cordova run ios
 
 Substitute ios for android if not on a Mac.
 
+******************************************************
+******************************************************
+( npm install typings -g
+ )
+typings install xml2json --save
+//  https://www.npmjs.com/package/xml2js
+
+*****************************************************

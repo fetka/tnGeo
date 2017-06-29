@@ -3,17 +3,26 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
 import { MyApp } from './app.component';
-import { HomePage } from '../pages/home/home';
+import { HomePage, TrackInfo } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { BackgroundGeolocation } from "@ionic-native/background-geolocation";
+import { File } from '@ionic-native/file';
+import { PopoverPage } from "../pages/popover/popover";
+import { BackgroundGeolocationMock } from "../mocks";
+
+
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
-    ListPage
+    ListPage,
+    PopoverPage
+
+
   ],
   imports: [
     BrowserModule,
@@ -23,12 +32,15 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   entryComponents: [
     MyApp,
     HomePage,
-    ListPage
+    ListPage,
+    PopoverPage
   ],
   providers: [
-    StatusBar,
-    SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    StatusBar, 
+     BackgroundGeolocation,
+    SplashScreen, TrackInfo, File,
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
+   // { provide: BackgroundGeolocation, useClass: BackgroundGeolocationMock }
   ]
 })
-export class AppModule {}
+export class AppModule { }
